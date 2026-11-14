@@ -1,0 +1,122 @@
+@import "tailwindcss";
+@import "@fontsource/space-grotesk/400.css";
+@import "@fontsource/space-grotesk/500.css";
+@import "@fontsource/space-grotesk/600.css";
+@import "@fontsource/space-grotesk/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/600.css";
+
+:root {
+  --space-void: #04060a;
+  --space-core: #080c14;
+  --space-well: #0d131f;
+  --space-ink: #f1f5f9;
+  --space-muted: #94a3b8;
+  --space-cyan: #38bdf8;
+  --space-pulse: #00e5ff;
+  --status-green: #10b981;
+  --status-yellow: #f59e0b;
+  --status-red: #ef4444;
+  --ease-orbital: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@theme inline {
+  --color-background: var(--space-void);
+  --color-foreground: var(--space-ink);
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+html {
+  background-color: var(--space-void);
+  color: var(--space-ink);
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--space-void);
+  color: var(--space-ink);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-mono-num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Orbital coordinate grid background (pure static GPU layer, zero violet) */
+.orbital-backdrop {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(ellipse 70% 45% at 50% -10%, rgba(56, 189, 248, 0.11), transparent 70%),
+    radial-gradient(ellipse 40% 35% at 85% 85%, rgba(0, 229, 255, 0.05), transparent 70%),
+    linear-gradient(to right, rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 56px 56px, 56px 56px;
+}
+
+/* Machined Double-Bezel Hardware Architecture */
+.bezel-outer {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0.015) 100%);
+  border-radius: 1.75rem;
+  padding: 6px;
+  box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.12), 0 24px 60px -24px rgba(0, 0, 0, 0.85);
+}
+
+.bezel-inner {
+  background: var(--space-core);
+  border-radius: calc(1.75rem - 6px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Orbital spring transitions */
+.orbital-transition {
+  transition-property: transform, opacity, background-color, border-color, box-shadow;
+  transition-duration: 500ms;
+  transition-timing-function: var(--ease-orbital);
+}
+
+@keyframes orbitalEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-orbital-enter {
+  animation: orbitalEnter 650ms var(--ease-orbital) both;
+}
+
+@keyframes scanPulse {
+  0%, 100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-telemetry-pulse {
+  animation: scanPulse 3s var(--ease-orbital) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-orbital-enter,
+  .animate-telemetry-pulse {
+    animation: none !important;
+  }
+  .orbital-transition {
+    transition-duration: 0ms !important;
+  }
+}
